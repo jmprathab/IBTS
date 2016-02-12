@@ -1,0 +1,89 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <include
+            android:id="@+id/app_bar"
+            layout="@layout/app_bar"></include>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/name_wrapper"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textColorHint="@color/colorPrimary">
+
+            <EditText
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/default_horizontal_margin"
+                android:hint="Name"
+                android:inputType="textPersonName"
+                android:lines="1"
+                android:padding="10dp" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/mobile_wrapper"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColorHint="@color/colorPrimary">
+
+            <EditText
+                android:id="@+id/mobile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/default_horizontal_margin"
+                android:hint="Mobile Number"
+                android:inputType="phone"
+                android:lines="1"
+                android:padding="10dp" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/password_wrapper"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColorHint="@color/colorPrimary">
+
+            <EditText
+                android:id="@+id/password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/default_horizontal_margin"
+                android:hint="Password"
+                android:inputType="textPassword"
+                android:lines="1"
+                android:padding="10dp" />
+        </android.support.design.widget.TextInputLayout>
+
+
+        <com.dd.processbutton.iml.ActionProcessButton
+            android:id="@+id/create_account"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/default_horizontal_margin"
+            android:maxWidth="320dp"
+            android:padding="@dimen/default_horizontal_margin"
+            android:text="Sign Up"
+            android:textAllCaps="false"
+            android:textColor="@color/colorIcons"
+            custom:pb_colorComplete="@color/green_complete"
+            custom:pb_colorError="@color/red_error"
+            custom:pb_colorNormal="@color/colorPrimaryDark"
+            custom:pb_colorPressed="@color/colorPrimaryDark"
+            custom:pb_colorProgress="@color/purple_progress"
+            custom:pb_textComplete="Account Created"
+            custom:pb_textError="Cannot Register"
+            custom:pb_textProgress="Registering" />
+
+    </LinearLayout>
+</ScrollView>

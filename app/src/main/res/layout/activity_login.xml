@@ -1,0 +1,119 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:fitsSystemWindows="true"
+    tools:context=".ActivityLogin">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/default_horizontal_margin"
+            android:padding="@dimen/default_horizontal_margin"
+            android:text="Sign In"
+            android:textColor="@color/colorIcons"
+            android:textSize="30sp" />
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/mobile_wrapper"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColorHint="@color/colorIcons">
+
+            <EditText
+                android:id="@+id/mobile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/default_horizontal_margin"
+                android:hint="Mobile Number"
+                android:inputType="text|phone"
+                android:lines="1"
+                android:padding="@dimen/default_horizontal_margin"
+                android:textColor="@color/colorIcons" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/password_wrapper"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColorHint="@color/colorIcons">
+
+            <EditText
+                android:id="@+id/password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/default_horizontal_margin"
+                android:hint="Password"
+                android:inputType="textPassword"
+                android:lines="1"
+                android:padding="@dimen/default_horizontal_margin"
+                android:textColor="@color/colorIcons"
+                android:textColorHint="@color/colorIcons" />
+        </android.support.design.widget.TextInputLayout>
+
+
+        <com.dd.processbutton.iml.ActionProcessButton
+            android:id="@+id/login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/default_horizontal_margin"
+            android:background="@color/colorPrimaryDark"
+            android:maxWidth="320dp"
+            android:padding="@dimen/default_horizontal_margin"
+            android:text="Login"
+            android:textAllCaps="false"
+            android:textColor="@color/colorIcons"
+            custom:pb_colorComplete="@color/green_complete"
+            custom:pb_colorError="@color/red_error"
+            custom:pb_colorNormal="@color/colorPrimaryDark"
+            custom:pb_colorPressed="@color/colorPrimaryDark"
+            custom:pb_colorProgress="@color/purple_progress"
+            custom:pb_textComplete="Success"
+            custom:pb_textError="Cannot Login"
+            custom:pb_textProgress="Logging In" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/default_horizontal_margin"
+            android:orientation="horizontal"
+            android:weightSum="100">
+
+            <TextView
+                android:id="@+id/forgot_password"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="50"
+                android:clickable="true"
+                android:gravity="center"
+                android:text="Forgot Password?"
+                android:textColor="@color/colorIcons" />
+
+            <TextView
+                android:id="@+id/create_account"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="50"
+                android:clickable="true"
+                android:gravity="center"
+                android:text="Create Account"
+                android:textColor="@color/colorIcons" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+</ScrollView>
