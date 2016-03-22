@@ -16,12 +16,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class Home extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class Home extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, MyAccount.OnFragmentInteractionListener {
     @Bind(R.id.app_bar)
     Toolbar toolbar;
     @Bind(R.id.floating_action_button)
@@ -52,6 +53,14 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
+        MyAccount myAccount = (MyAccount) getSupportFragmentManager().findFragmentByTag("MY_ACCOUNT");
+        if (myAccount == null) {
+            myAccount = MyAccount.newInstance();
+        }
+        getSupportFragmentManager().beginTransaction().replace(R.id.activity_root_layout_linear, myAccount, "MY_ACCOUNT").commit();
+        getSupportActionBar().setTitle("My Account");
+        getSupportActionBar().setSubtitle("Prathab Murugan");
+        floatingActionButton.setImageResource(R.drawable.edit);
     }
 
     @Override
@@ -99,5 +108,12 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         }
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+
+    @Override
+    public void onFragmentInteraction(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+
     }
 }

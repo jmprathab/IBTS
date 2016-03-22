@@ -28,7 +28,14 @@
         </android.support.design.widget.AppBarLayout>
 
         <!--Fragments should be added here-->
-        <include layout="@layout/content_home" />
+        <LinearLayout
+            android:id="@+id/activity_root_layout_linear"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingTop="?android:attr/actionBarSize">
+
+        </LinearLayout>
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/floating_action_button"

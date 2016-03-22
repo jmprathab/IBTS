@@ -61,7 +61,7 @@ public class Login extends AppCompatActivity {
 
     @OnClick(R.id.login)
     public void login() {
-        startActivity(new Intent(Login.this,Home.class));
+        startActivity(new Intent(Login.this, Home.class));
         finish();
         lockView(login);
         userInputMobile = mobile.getText().toString();
@@ -188,7 +188,7 @@ public class Login extends AppCompatActivity {
 
     @OnClick(R.id.forgot_password)
     public void forgotPasssword() {
-        SpannableString message = new SpannableString("To reset Password visit \nwww.knowwell/reset.php");
+        SpannableString message = new SpannableString("To reset Password visit \nwww.ibts.com/reset.php");
         Linkify.addLinks(message, Linkify.ALL);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(Login.this, R.style.AlertDialogLight);
