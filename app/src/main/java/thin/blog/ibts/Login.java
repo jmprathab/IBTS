@@ -61,6 +61,8 @@ public class Login extends AppCompatActivity {
 
     @OnClick(R.id.login)
     public void login() {
+        startActivity(new Intent(Login.this,Home.class));
+        finish();
         lockView(login);
         userInputMobile = mobile.getText().toString();
         userInputPassword = password.getText().toString();
@@ -130,7 +132,7 @@ public class Login extends AppCompatActivity {
                 @Override
                 public void onFinish() {
                     login.setProgress(100);
-                    //startActivity(new Intent(Login.this, MainActivity.class));
+                    startActivity(new Intent(Login.this, Home.class));
                     //finish();
                 }
             }.start();
@@ -159,7 +161,7 @@ public class Login extends AppCompatActivity {
         editor = sharedPreferences.edit();
         if (sharedPreferences.getBoolean(Constants.SUCCESSFUL_LOGIN_HISTORY, false)) {
             //if (true) {
-            //startActivity(new Intent(LoginActivity.this, SurveyList.class));
+            //startActivity(new Intent(LoginActivity.this, Home.class));
             //finish();
         }
         setContentView(R.layout.activity_login);
