@@ -3,10 +3,7 @@ package thin.blog.ibts;
 
 public class Constants {
     public static final String SHARED_PREFS_USER_DATA = "user_data";
-    public static final String USER_DATA_NAME = "name";
-    public static final String USER_DATA_MOBILE = "mobile";
-    public static final String USER_DATA_PASSWORD = "password";
-    public static final String USER_DATA_EMAIL = "email";
+    public static final String USER_DATA_OBJECT = "user_data_object";
     public static final String USER_DATA_USER_ID = "user_id";
     public static final String SUCCESSFUL_LOGIN_HISTORY = "successful_login_history";
     public static final String SUCCESSFUL_REGISTRATION_HISTORY = "successful_registration_history";
@@ -14,6 +11,9 @@ public class Constants {
     //URL Addresses for Server
     public static final String LOGIN;
     public static final String SIGNUP;
+    public static final String EDIT_DETAILS;
+    public static final String FETCH_DETAILS;
+
 
     //for testing
     //set localhost = false for testing from webhost
@@ -24,11 +24,13 @@ public class Constants {
 
     static {
         if (localhost) {
-            ADDRESS = "http://192.168.1.2/ibts/";
+            ADDRESS = "http://192.168.1.3/ibts/";
         } else {
             ADDRESS = "http://www.thin.comyr.com/";
         }
         LOGIN = ADDRESS + "login.php";
         SIGNUP = ADDRESS + "register.php";
+        EDIT_DETAILS = ADDRESS + "editdetails.php";
+        FETCH_DETAILS = ADDRESS + "fetchdetails.php";
     }
 }

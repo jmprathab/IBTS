@@ -1,20 +1,14 @@
 package thin.blog.ibts;
 
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.NavUtils;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.EditText;
 
 import com.android.volley.Request;
@@ -35,6 +29,13 @@ import butterknife.OnClick;
 import network.CustomRequest;
 import network.VolleySingleton;
 
+import static thin.blog.ibts.ApplicationHelper.isValidMobileNumber;
+import static thin.blog.ibts.ApplicationHelper.isValidName;
+import static thin.blog.ibts.ApplicationHelper.isValidPassword;
+import static thin.blog.ibts.ApplicationHelper.lockView;
+import static thin.blog.ibts.ApplicationHelper.releaseView;
+import static thin.blog.ibts.ApplicationHelper.writeToSharedPreferences;
+
 /*
 * Sign Up Activity which enables Users to create a new Account by providing valid details
 * After account has been created user will be taken to LoginActivity in which Users can Login using the credentials which were used to create account
@@ -51,44 +52,20 @@ public class SignUp extends AppCompatActivity {
     EditText password;
     @Bind(R.id.create_account)
     ProcessButton signUp;
-    String userInputName, userInputMobile, userInputPassword;
     int serverSuccess;
     String serverMessage;
-    SharedPreferences sharedPreferences;
-    SharedPreferences.Editor editor;
+    String userInputName, userInputMobile, userInputPassword;
+    User user = new User();
 
-    public static boolean isValidPassword(String password) {
-        if (password.contentEquals("")) {
-            return false;
-        }
-        return true;
-    }
-
-    public static boolean isValidName(String name) {
-        return !name.contentEquals("");
-    }
-
-    public static boolean isValidMobile(String mobile) {
-        return !mobile.contentEquals("");
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = this.getWindow();
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            window.setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
-        }
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Create Account");
-        sharedPreferences = getSharedPreferences(Constants.SHARED_PREFS_USER_DATA, MODE_PRIVATE);
-        editor = sharedPreferences.edit();
-        //for testing
         name.setText("Prathab");
         mobile.setText("9025731119");
         password.setText("jaihanuman");
@@ -102,7 +79,7 @@ public class SignUp extends AppCompatActivity {
         userInputPassword = password.getText().toString();
         serverSuccess = 0;
         serverMessage = "Cannot contact server\nCheck your Internet Connection and Try again";
-        if (isValidName(userInputName) && isValidMobile(userInputMobile) && isValidPassword(userInputPassword)) {
+        if (isValidName(userInputName) && isValidMobileNumber(userInputMobile) && isValidPassword(userInputPassword)) {
             signUp.setProgress(1);
             RequestQueue requestQueue = VolleySingleton.getInstance().getRequestQueue();
             Map<String, String> formData = new HashMap<>();
@@ -167,11 +144,11 @@ public class SignUp extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(SignUp.this, R.style.AlertDialogDark);
         builder.setCancelable(false);
         if (serverSuccess == 1) {
-            editor.putString(Constants.USER_DATA_MOBILE, userInputMobile);
-            editor.putString(Constants.USER_DATA_PASSWORD, userInputPassword);
-            editor.putString(Constants.USER_DATA_NAME, userInputName);
-            editor.putBoolean(Constants.SUCCESSFUL_REGISTRATION_HISTORY, true);
-            editor.apply();
+            user.setMobile(userInputMobile);
+            user.setPassword(userInputPassword);
+            user.setName(userInputName);
+            writeToSharedPreferences(Constants.USER_DATA_OBJECT, User.getUserJson(user));
+            writeToSharedPreferences(Constants.SUCCESSFUL_REGISTRATION_HISTORY, true);
             signUp.setProgress(100);
             builder.setTitle("Successfully Registered");
             builder.setMessage(serverMessage);
@@ -199,14 +176,6 @@ public class SignUp extends AppCompatActivity {
         AlertDialog alertDialog;
         alertDialog = builder.create();
         alertDialog.show();
-    }
-
-    private void lockView(View v) {
-        v.setClickable(false);
-    }
-
-    private void releaseView(View v) {
-        v.setClickable(true);
     }
 
     @Override

@@ -1,11 +1,10 @@
 package thin.blog.ibts;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
-import android.support.v4.content.ContextCompat;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -14,15 +13,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.Toast;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class Home extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, MyAccount.OnFragmentInteractionListener {
+public class Home extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, FragmentManager.OnBackStackChangedListener {
     @Bind(R.id.app_bar)
     Toolbar toolbar;
     @Bind(R.id.floating_action_button)
@@ -31,10 +27,19 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
     DrawerLayout drawerLayout;
     @Bind(R.id.navigation_view)
     NavigationView navigationView;
+    FragmentManager fragmentManager;
 
     @OnClick(R.id.floating_action_button)
     public void floatingButtonPressed(View view) {
-        Snackbar.make(view, "Why did you click me ?", Snackbar.LENGTH_LONG).setAction("Action", null).show();
+        android.support.v4.app.Fragment current = getSupportFragmentManager().findFragmentById(R.id.activity_root_layout_linear);
+        if (current instanceof MyAccount) {
+            EditAccount editAccount = (EditAccount) getSupportFragmentManager().findFragmentByTag("EDIT_ACCOUNT");
+            if (editAccount == null) {
+                editAccount = EditAccount.newInstance();
+            }
+            fragmentManager.beginTransaction().setCustomAnimations(R.anim.enter, R.anim.exit, R.anim.pop_enter, R.anim.pop_exit).replace(R.id.activity_root_layout_linear, editAccount, "EDIT_ACCOUNT").addToBackStack("EDIT_ACCOUNT").commit();
+            floatingActionButton.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override
@@ -43,24 +48,19 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Window window = this.getWindow();
-            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            window.setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
-        }
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
+        fragmentManager = getSupportFragmentManager();
+        fragmentManager.addOnBackStackChangedListener(this);
         MyAccount myAccount = (MyAccount) getSupportFragmentManager().findFragmentByTag("MY_ACCOUNT");
         if (myAccount == null) {
             myAccount = MyAccount.newInstance();
         }
-        getSupportFragmentManager().beginTransaction().replace(R.id.activity_root_layout_linear, myAccount, "MY_ACCOUNT").commit();
+        fragmentManager.beginTransaction().replace(R.id.activity_root_layout_linear, myAccount, "MY_ACCOUNT").commit();
         getSupportActionBar().setTitle("My Account");
         getSupportActionBar().setSubtitle("Prathab Murugan");
-        floatingActionButton.setImageResource(R.drawable.edit);
     }
 
     @Override
@@ -68,7 +68,11 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            if (fragmentManager.getBackStackEntryCount() == 0) {
+                finish();
+            } else {
+                super.onBackPressed();
+            }
         }
     }
 
@@ -110,10 +114,11 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         return true;
     }
 
-
     @Override
-    public void onFragmentInteraction(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
-
+    public void onBackStackChanged() {
+        Fragment fragment = fragmentManager.findFragmentById(R.id.activity_root_layout_linear);
+        if (fragment instanceof MyAccount) {
+            floatingActionButton.setVisibility(View.VISIBLE);
+        }
     }
 }

@@ -8,7 +8,6 @@
         <item name="android:colorAccent">@color/colorAccent</item>
         <item name="android:navigationBarColor">@color/colorPrimary</item>
         <item name="android:textColorPrimary">@color/colorPrimary</item>
-        <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:textColorSecondary">@color/colorPrimaryDark</item>
         <item name="android:icon">@color/colorIcons</item>
         <item name="android:divider">@color/colorDivider</item>
