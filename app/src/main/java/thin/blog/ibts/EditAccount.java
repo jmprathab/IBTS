@@ -1,6 +1,7 @@
 package thin.blog.ibts;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.design.widget.Snackbar;
@@ -105,16 +106,15 @@ public class EditAccount extends Fragment {
         } else {
             userInputData.setPassword(inputOldPassword);
         }
-        if (!isValidPassword(inputOldPassword)) {
+        if (inputOldPassword.contentEquals("")) {
             Snackbar.make(applyDetails, "Enter Your Password", Snackbar.LENGTH_LONG).show();
             newPassword.setText("");
             confirmNewPassword.setText("");
             releaseView(applyDetails);
             return;
         }
-        if (isValidPassword(inputNewPassword)) {
+        if (!inputNewPassword.contentEquals("")) {
             if (!inputNewPassword.contentEquals(inputConfirmNewPassword)) {
-                oldPassword.setText("");
                 newPassword.setText("");
                 confirmNewPassword.setText("");
                 Snackbar.make(applyDetails, "Passwords should match", Snackbar.LENGTH_LONG).show();
@@ -122,7 +122,8 @@ public class EditAccount extends Fragment {
                 return;
             }
         } else {
-            inputNewPassword = inputConfirmNewPassword = "";
+            inputNewPassword = inputOldPassword;
+            userInputData.setPassword(inputNewPassword);
         }
         final RequestQueue requestQueue = VolleySingleton.getInstance().getRequestQueue();
         Map<String, String> formData = new HashMap<>();
@@ -130,7 +131,7 @@ public class EditAccount extends Fragment {
         formData.put("email", inputEmail);
         formData.put("address", inputAddress);
         formData.put("oldpassword", inputOldPassword);
-        //formData.put("newpassword", inputNewPassword);
+        formData.put("newpassword", inputNewPassword);
         final CustomRequest request = new CustomRequest(Request.Method.POST, Constants.EDIT_DETAILS, formData, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -172,22 +173,25 @@ public class EditAccount extends Fragment {
     }
 
     private void finalDecision() {
-        if (serverSuccess == 1) {
+        if (serverSuccess == 1 || serverSuccess == 20) {
             writeToSharedPreferences(Constants.USER_DATA_OBJECT, User.getUserJson(userInputData));
-            applyDetails.setProgress(1);
-            //Add details to Shared Preferences
-            new CountDownTimer(2000, 1000) {
-                @Override
-                public void onTick(long millisUntilFinished) {
-                }
-
-                @Override
-                public void onFinish() {
-                    applyDetails.setProgress(100);
-                    lockView(applyDetails);
-                }
-            }.start();
-
+            applyDetails.setProgress(100);
+            lockView(applyDetails);
+            if (serverSuccess == 20) {
+                android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(getActivity(), R.style.AlertDialogDark);
+                builder.setCancelable(false);
+                builder.setTitle("Password Changed");
+                builder.setMessage("Password has been changed\nPlease Login again into the application");
+                builder.setPositiveButton("Login", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                        OnFragmentInteractionListener listener = (OnFragmentInteractionListener) getActivity();
+                        listener.onFragmentInteraction();
+                    }
+                });
+                builder.create().show();
+            }
         } else {
             applyDetails.setProgress(-1);
             failed = new CountDownTimer(2000, 1000) {
@@ -239,5 +243,9 @@ public class EditAccount extends Fragment {
 
     private void releaseView(View v) {
         v.setClickable(true);
+    }
+
+    interface OnFragmentInteractionListener {
+        void onFragmentInteraction();
     }
 }

@@ -1,5 +1,6 @@
 package thin.blog.ibts;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -18,7 +19,9 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class Home extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, FragmentManager.OnBackStackChangedListener {
+import static thin.blog.ibts.ApplicationHelper.readFromSharedPreferences;
+
+public class Home extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, FragmentManager.OnBackStackChangedListener, EditAccount.OnFragmentInteractionListener {
     @Bind(R.id.app_bar)
     Toolbar toolbar;
     @Bind(R.id.floating_action_button)
@@ -60,7 +63,12 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         }
         fragmentManager.beginTransaction().replace(R.id.activity_root_layout_linear, myAccount, "MY_ACCOUNT").commit();
         getSupportActionBar().setTitle("My Account");
-        getSupportActionBar().setSubtitle("Prathab Murugan");
+        String userName = User.getUserObject(readFromSharedPreferences(Constants.USER_DATA_OBJECT, "")).getName();
+        if (userName.contentEquals("-")) {
+            getSupportActionBar().setSubtitle(null);
+        } else {
+            getSupportActionBar().setSubtitle(userName);
+        }
     }
 
     @Override
@@ -97,7 +105,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.my_account) {
+        if (id == R.id.menu_my_account) {
 
         } else if (id == R.id.travel_history) {
 
@@ -120,5 +128,12 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         if (fragment instanceof MyAccount) {
             floatingActionButton.setVisibility(View.VISIBLE);
         }
+    }
+
+    @Override
+    public void onFragmentInteraction() {
+        ApplicationHelper.writeToSharedPreferences(Constants.SUCCESSFUL_LOGIN_HISTORY, false);
+        startActivity(new Intent(Home.this, Login.class));
+        finish();
     }
 }
