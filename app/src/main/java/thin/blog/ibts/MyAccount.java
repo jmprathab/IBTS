@@ -14,6 +14,8 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 
+import net.glxn.qrgen.android.QRCode;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -22,12 +24,14 @@ import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import datasets.User;
 import network.CustomRequest;
 import network.VolleySingleton;
 
+import static datasets.User.getUserObject;
+import static thin.blog.ibts.ApplicationHelper.getsha256;
 import static thin.blog.ibts.ApplicationHelper.readFromSharedPreferences;
 import static thin.blog.ibts.ApplicationHelper.writeToSharedPreferences;
-import static thin.blog.ibts.User.getUserObject;
 
 public class MyAccount extends Fragment {
     @Bind(R.id.name)
@@ -42,20 +46,23 @@ public class MyAccount extends Fragment {
     TextView balance;
     @Bind(R.id.qr_code)
     ImageView qrCode;
-    int userId;
-    String dataName, dataMobile, dataEmail, dataAddress, password;
-    double dataBalance;
-    String serverMessage;
-    int serverSuccess;
-    User user = new User();
+    private int userId;
+    private String dataName;
+    private String dataMobile;
+    private String dataEmail;
+    private String dataAddress;
+    private String password;
+    private String qrCodeData;
+    private double dataBalance;
+    private String serverMessage;
+    private int serverSuccess;
+    private User user = new User();
 
     public MyAccount() {
-        // Required empty public constructor
     }
 
     public static MyAccount newInstance() {
-        MyAccount fragment = new MyAccount();
-        return fragment;
+        return new MyAccount();
     }
 
     @Override
@@ -69,6 +76,7 @@ public class MyAccount extends Fragment {
         dataEmail = "Email : " + user.getEmail();
         dataAddress = "Address : " + user.getAddress();
         dataBalance = user.getBalance();
+        qrCodeData = userId + "/" + getsha256(password + dataMobile + userId);
     }
 
     @Override
@@ -80,6 +88,7 @@ public class MyAccount extends Fragment {
         email.setText(dataEmail);
         address.setText(dataAddress);
         balance.setText("Balance : ₹ " + dataBalance);
+        qrCode.setImageBitmap(QRCode.from(qrCodeData).bitmap());
         doProcess();
         return view;
     }
@@ -108,7 +117,7 @@ public class MyAccount extends Fragment {
             serverSuccess = response.getInt("status");
             if (serverSuccess == 1) {
                 String name, mobile, email, address;
-                double balance = 0.00;
+                double balance;
                 name = response.getString("name");
                 mobile = response.getString("mobile");
                 email = response.getString("email");
@@ -135,6 +144,8 @@ public class MyAccount extends Fragment {
             email.setText("Email : " + user.getEmail());
             address.setText("Address : " + user.getAddress());
             balance.setText("Balance : ₹ " + user.getBalance());
+            qrCodeData = userId + "/" + getsha256(password + dataMobile + userId);
+            qrCode.setImageBitmap(QRCode.from(qrCodeData).bitmap());
             writeToSharedPreferences(Constants.USER_DATA_OBJECT, User.getUserJson(user));
         } else {
             Snackbar.make(name, serverMessage, Snackbar.LENGTH_LONG).show();

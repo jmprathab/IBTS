@@ -76,7 +76,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/default_horizontal_margin"
-                android:gravity="top|left"
+                android:gravity="top|start"
                 android:hint="Address"
                 android:inputType="textMultiLine"
                 android:lines="5"
@@ -137,7 +137,7 @@
         <com.dd.processbutton.iml.ActionProcessButton
             android:id="@+id/edit_details"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_margin="@dimen/default_horizontal_margin"
             android:layout_weight="1"
             android:maxWidth="320dp"

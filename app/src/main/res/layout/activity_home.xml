@@ -27,7 +27,6 @@
 
         </android.support.design.widget.AppBarLayout>
 
-        <!--Fragments should be added here-->
         <LinearLayout
             android:id="@+id/activity_root_layout_linear"
             android:layout_width="match_parent"
@@ -56,5 +55,4 @@
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/navigation_view_header"
         app:menu="@menu/menu_navigation_drawer" />
-
 </android.support.v4.widget.DrawerLayout>

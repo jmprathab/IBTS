@@ -1,7 +1,7 @@
 package thin.blog.ibts;
 
 
-public class Constants {
+class Constants {
     public static final String SHARED_PREFS_USER_DATA = "user_data";
     public static final String USER_DATA_OBJECT = "user_data_object";
     public static final String USER_DATA_USER_ID = "user_id";
@@ -13,14 +13,14 @@ public class Constants {
     public static final String SIGNUP;
     public static final String EDIT_DETAILS;
     public static final String FETCH_DETAILS;
-
-
+    public static final String BUS_LIST;
+    public static final String BUS_DETAILS;
+    public static final String STOP_LIST;
+    public static final String STOP_DETAILS;
     //for testing
     //set localhost = false for testing from webhost
     private static final Boolean localhost = true;
-
     private static final String ADDRESS;
-
 
     static {
         if (localhost) {
@@ -32,5 +32,9 @@ public class Constants {
         SIGNUP = ADDRESS + "register.php";
         EDIT_DETAILS = ADDRESS + "editdetails.php";
         FETCH_DETAILS = ADDRESS + "fetchdetails.php";
+        BUS_LIST = ADDRESS + "buslist.php";
+        STOP_LIST = ADDRESS + "stoplist.php";
+        BUS_DETAILS = ADDRESS + "busdetails.php";
+        STOP_DETAILS = ADDRESS + "stopdetails.php";
     }
 }

@@ -26,6 +26,7 @@ import java.util.Map;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import datasets.User;
 import network.CustomRequest;
 import network.VolleySingleton;
 
@@ -42,6 +43,7 @@ import static thin.blog.ibts.ApplicationHelper.writeToSharedPreferences;
 * */
 
 public class SignUp extends AppCompatActivity {
+    private final User user = new User();
     @Bind(R.id.app_bar)
     Toolbar toolbar;
     @Bind(R.id.name)
@@ -52,11 +54,11 @@ public class SignUp extends AppCompatActivity {
     EditText password;
     @Bind(R.id.create_account)
     ProcessButton signUp;
-    int serverSuccess;
-    String serverMessage;
-    String userInputName, userInputMobile, userInputPassword;
-    User user = new User();
-
+    private int serverSuccess;
+    private String serverMessage;
+    private String userInputName;
+    private String userInputMobile;
+    private String userInputPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

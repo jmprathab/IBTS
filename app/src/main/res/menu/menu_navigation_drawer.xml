@@ -6,18 +6,22 @@
             <menu>
                 <item
                     android:id="@+id/menu_my_account"
+                    android:checkable="true"
                     android:icon="@drawable/ic_menu_share"
                     android:title="My Account" />
                 <item
                     android:id="@+id/menu_edit_details"
+                    android:checkable="true"
                     android:icon="@drawable/ic_menu_send"
                     android:title="Edit Details" />
                 <item
                     android:id="@+id/menu_settings"
+                    android:checkable="true"
                     android:icon="@drawable/ic_menu_share"
                     android:title="Settings" />
                 <item
                     android:id="@+id/menu_logout"
+                    android:checkable="true"
                     android:icon="@drawable/ic_menu_send"
                     android:title="Logout" />
             </menu>
@@ -27,14 +31,17 @@
             <menu>
                 <item
                     android:id="@+id/travel_history"
+                    android:checkable="true"
                     android:icon="@drawable/ic_menu_gallery"
                     android:title="Travel History" />
                 <item
                     android:id="@+id/bus_tracker"
+                    android:checkable="true"
                     android:icon="@drawable/ic_menu_slideshow"
                     android:title="Bus Tracker" />
                 <item
                     android:id="@+id/stop_details"
+                    android:checkable="true"
                     android:icon="@drawable/ic_menu_manage"
                     android:title="Stop Details" />
             </menu>
@@ -46,10 +53,12 @@
             <menu>
                 <item
                     android:id="@+id/help"
+                    android:checkable="true"
                     android:icon="@drawable/ic_menu_share"
                     android:title="Help" />
                 <item
                     android:id="@+id/about"
+                    android:checkable="true"
                     android:icon="@drawable/ic_menu_send"
                     android:title="About" />
             </menu>

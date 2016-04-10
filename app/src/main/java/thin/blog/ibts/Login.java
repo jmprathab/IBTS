@@ -27,6 +27,7 @@ import java.util.Map;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import datasets.User;
 import network.CustomRequest;
 import network.VolleySingleton;
 
@@ -43,10 +44,10 @@ public class Login extends AppCompatActivity {
     EditText password;
     @Bind(R.id.login)
     ActionProcessButton login;
-    String serverMessage;
-    int serverSuccess;
     User user = new User();
-    CountDownTimer activityStarter;
+    private String serverMessage;
+    private int serverSuccess;
+    private CountDownTimer activityStarter;
 
 
     @OnClick(R.id.login)

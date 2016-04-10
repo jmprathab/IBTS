@@ -1,4 +1,4 @@
-package thin.blog.ibts;
+package datasets;
 
 import com.google.gson.Gson;
 
@@ -6,14 +6,18 @@ import com.google.gson.Gson;
  * Created by jmprathab on 31/03/16.
  */
 public class User {
-    int userId;
-    double balance;
-    String name, mobile, email, address, password;
+    private int userId;
+    private double balance;
+    private String name;
+    private String mobile;
+    private String email;
+    private String address;
+    private String password;
 
     public User() {
     }
 
-    public User(int userId, double balance, String name, String mobile, String email, String address, String password) {
+    private User(int userId, double balance, String name, String mobile, String email, String address, String password) {
         this.userId = userId;
         this.name = name;
         this.password = password;

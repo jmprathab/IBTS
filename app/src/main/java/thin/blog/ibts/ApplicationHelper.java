@@ -6,6 +6,8 @@ import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.View;
 
+import java.security.MessageDigest;
+
 /**
  * ApplicationHelper class which extends Application
  * This class is used by Volley Library
@@ -22,10 +24,7 @@ public class ApplicationHelper extends Application {
     }
 
     public static boolean isValidPassword(String password) {
-        if (password.contentEquals("")) {
-            return false;
-        }
-        return true;
+        return !password.contentEquals("");
     }
 
     public static boolean isValidName(String name) {
@@ -40,7 +39,7 @@ public class ApplicationHelper extends Application {
     public static void writeToSharedPreferences(String name, String value) {
         SharedPreferences sharedPreferences = getMyApplicationContext().getSharedPreferences(Constants.SHARED_PREFS_USER_DATA, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString(name, value);
+        editor.putString(Constants.USER_DATA_OBJECT, value);
         editor.apply();
     }
 
@@ -72,6 +71,24 @@ public class ApplicationHelper extends Application {
     public static void L(String message) {
         Log.d("prathab", message);
     }
+
+    public static String getsha256(String base) {
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hash = digest.digest(base.getBytes("UTF-8"));
+            StringBuilder hexString = new StringBuilder();
+
+            for (int i = 0; i < hash.length; i++) {
+                String hex = Integer.toHexString(0xff & hash[i]);
+                if (hex.length() == 1) hexString.append('0');
+                hexString.append(hex);
+            }
+            return hexString.toString();
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
 
     @Override
     public void onCreate() {

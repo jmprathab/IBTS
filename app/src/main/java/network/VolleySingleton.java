@@ -7,7 +7,7 @@ import thin.blog.ibts.ApplicationHelper;
 
 public class VolleySingleton {
     private static VolleySingleton sInstance = null;
-    private RequestQueue mRequestQueue;
+    private final RequestQueue mRequestQueue;
 
     private VolleySingleton() {
         mRequestQueue = Volley.newRequestQueue(ApplicationHelper.getMyApplicationContext());

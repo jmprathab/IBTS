@@ -26,6 +26,7 @@ import java.util.Map;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import datasets.User;
 import network.CustomRequest;
 import network.VolleySingleton;
 
@@ -34,6 +35,7 @@ import static thin.blog.ibts.ApplicationHelper.readFromSharedPreferences;
 import static thin.blog.ibts.ApplicationHelper.writeToSharedPreferences;
 
 public class EditAccount extends Fragment {
+    private final User userInputData = new User();
     @Bind(R.id.name)
     EditText name;
     @Bind(R.id.mobile)
@@ -50,20 +52,17 @@ public class EditAccount extends Fragment {
     EditText confirmNewPassword;
     @Bind(R.id.edit_details)
     ActionProcessButton applyDetails;
-    int serverSuccess;
-    String serverMessage;
-    CountDownTimer failed;
-    User user = new User();
-    User userInputData = new User();
+    private int serverSuccess;
+    private String serverMessage;
+    private CountDownTimer failed;
+    private User user = new User();
     private Context activityContext;
 
     public EditAccount() {
-        // Required empty public constructor
     }
 
     public static EditAccount newInstance() {
-        EditAccount fragment = new EditAccount();
-        return fragment;
+        return new EditAccount();
     }
 
     @Override
