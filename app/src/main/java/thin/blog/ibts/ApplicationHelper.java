@@ -9,8 +9,8 @@ import android.view.View;
 import java.security.MessageDigest;
 
 /**
- * ApplicationHelper class which extends Application
- * This class is used by Volley Library
+ * This class extends Application
+ * This class is contains methods used throughout the application
  */
 public class ApplicationHelper extends Application {
     private static ApplicationHelper sInstance;
@@ -72,10 +72,16 @@ public class ApplicationHelper extends Application {
         Log.d("prathab", message);
     }
 
-    public static String getsha256(String base) {
+    /**
+     * Returns a String Object which contains the SHA256 Hash value of the input
+     *
+     * @param input a String object for which SHA256 should be calculated
+     * @return SHA256 of the input String
+     */
+    public static String getSHA256(String input) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            byte[] hash = digest.digest(base.getBytes("UTF-8"));
+            byte[] hash = digest.digest(input.getBytes("UTF-8"));
             StringBuilder hexString = new StringBuilder();
 
             for (int i = 0; i < hash.length; i++) {

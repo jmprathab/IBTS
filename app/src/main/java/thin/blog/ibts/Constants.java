@@ -4,7 +4,6 @@ package thin.blog.ibts;
 class Constants {
     public static final String SHARED_PREFS_USER_DATA = "user_data";
     public static final String USER_DATA_OBJECT = "user_data_object";
-    public static final String USER_DATA_USER_ID = "user_id";
     public static final String SUCCESSFUL_LOGIN_HISTORY = "successful_login_history";
     public static final String SUCCESSFUL_REGISTRATION_HISTORY = "successful_registration_history";
 

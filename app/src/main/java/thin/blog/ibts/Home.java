@@ -27,7 +27,7 @@ import datasets.User;
 import static thin.blog.ibts.ApplicationHelper.readFromSharedPreferences;
 import static thin.blog.ibts.ApplicationHelper.writeToSharedPreferences;
 
-public class Home extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, EditAccount.OnFragmentInteractionListener, Lister.OnFragmentInteractionListener {
+public class Home extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, EditAccount.OnFragmentInteractionListener {
     @Bind(R.id.app_bar)
     Toolbar toolbar;
     @Bind(R.id.floating_action_button)
@@ -47,16 +47,13 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
             if (editAccount == null) {
                 editAccount = EditAccount.newInstance();
             }
-            fragmentManager
-                    .beginTransaction()
-                    .replace(R.id.activity_root_layout_linear, editAccount, "EDIT_ACCOUNT")
-                    .commit();
+            replaceFragment(editAccount, "EDIT_ACCOUNT", "Edit Account");
             floatingActionButton.setVisibility(View.INVISIBLE);
             navigationView.setCheckedItem(R.id.menu_edit_details);
         }
         if (current instanceof Lister) {
             Lister lister = (Lister) current;
-            lister.shareData();
+            lister.shareDataAsText();
         }
     }
 
@@ -75,12 +72,8 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         if (myAccount == null) {
             myAccount = MyAccount.newInstance();
         }
-        fragmentManager
-                .beginTransaction()
-                .replace(R.id.activity_root_layout_linear, myAccount, "MY_ACCOUNT")
-                .commit();
+        replaceFragment(myAccount, "MY_ACCOUNT", "My Account");
         navigationView.setCheckedItem(R.id.menu_my_account);
-        getSupportActionBar().setTitle("My Account");
         String userName = User.getUserObject(readFromSharedPreferences(Constants.USER_DATA_OBJECT, "")).getName();
         if (userName.contentEquals("-")) {
             getSupportActionBar().setSubtitle(null);
@@ -124,7 +117,6 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -134,10 +126,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
             if (myAccount == null) {
                 myAccount = MyAccount.newInstance();
             }
-            fragmentManager
-                    .beginTransaction()
-                    .replace(R.id.activity_root_layout_linear, myAccount, "MY_ACCOUNT")
-                    .commit();
+            replaceFragment(myAccount, "MY_ACCOUNT", "My Account");
             floatingActionButton.setVisibility(View.VISIBLE);
             floatingActionButton.setImageResource(R.drawable.edit);
         } else if (id == R.id.menu_edit_details) {
@@ -145,19 +134,21 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
             if (editAccount == null) {
                 editAccount = EditAccount.newInstance();
             }
-            fragmentManager.beginTransaction()
-                    .replace(R.id.activity_root_layout_linear, editAccount, "EDIT_ACCOUNT")
-                    .commit();
+            replaceFragment(editAccount, "EDIT_ACCOUNT", "Edit Account");
             floatingActionButton.setVisibility(View.INVISIBLE);
         } else if (id == R.id.menu_settings) {
-
-
+            Settings settings = (Settings) fragmentManager.findFragmentByTag("SETTINGS");
+            if (settings == null) {
+                settings = Settings.newInstance();
+            }
+            replaceFragment(settings, "SETTINGS", "Settings");
+            floatingActionButton.setVisibility(View.INVISIBLE);
         } else if (id == R.id.menu_logout) {
             android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(this, R.style.AlertDialogDark);
             AlertDialog dialog;
             builder.setCancelable(false);
-            builder.setTitle("Logout");
-            builder.setMessage("Are you sure?\nDo you want to logout of the Application");
+            builder.setTitle("Logout of Application?");
+            builder.setMessage("Do you want to logout of the Application");
             builder.setPositiveButton("Logout", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -183,15 +174,19 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
 
         } else if (id == R.id.travel_history) {
 
+            TravelHistory travelHistory = (TravelHistory) fragmentManager.findFragmentByTag("TRAVEL_HISTORY");
+            if (travelHistory == null) {
+                travelHistory = TravelHistory.newInstance();
+            }
+            replaceFragment(travelHistory, "TRAVEL_HISTORY", "Travel History");
+            floatingActionButton.setVisibility(View.INVISIBLE);
+
         } else if (id == R.id.bus_tracker) {
             Lister lister = (Lister) fragmentManager.findFragmentByTag("BUS");
             if (lister == null) {
                 lister = Lister.newInstance("BUS");
             }
-            fragmentManager
-                    .beginTransaction()
-                    .replace(R.id.activity_root_layout_linear, lister, "BUS")
-                    .commit();
+            replaceFragment(lister, "BUS", "Bus Tracker");
             floatingActionButton.setVisibility(View.VISIBLE);
             floatingActionButton.setImageResource(R.drawable.share);
 
@@ -200,10 +195,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
             if (lister == null) {
                 lister = Lister.newInstance("STOP");
             }
-            fragmentManager
-                    .beginTransaction()
-                    .replace(R.id.activity_root_layout_linear, lister, "STOP")
-                    .commit();
+            replaceFragment(lister, "STOP", "Stop Details");
             floatingActionButton.setVisibility(View.VISIBLE);
             floatingActionButton.setImageResource(R.drawable.share);
 
@@ -212,10 +204,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
             if (help == null) {
                 help = Help.newInstance();
             }
-            fragmentManager
-                    .beginTransaction()
-                    .replace(R.id.activity_root_layout_linear, help, "HELP")
-                    .commit();
+            replaceFragment(help, "HELP", "Help");
             floatingActionButton.setVisibility(View.INVISIBLE);
 
         } else if (id == R.id.about) {
@@ -223,10 +212,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
             if (about == null) {
                 about = About.newInstance();
             }
-            fragmentManager
-                    .beginTransaction()
-                    .replace(R.id.activity_root_layout_linear, about, "ABOUT")
-                    .commit();
+            replaceFragment(about, "ABOUT", "About");
             floatingActionButton.setVisibility(View.INVISIBLE);
         }
         drawerLayout.closeDrawer(GravityCompat.START);
@@ -240,8 +226,8 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         finish();
     }
 
-    @Override
-    public void onFragmentInteraction(String uri) {
-
+    private void replaceFragment(Fragment fragment, String tag, String actionBarTitle) {
+        fragmentManager.beginTransaction().replace(R.id.activity_root_layout_linear, fragment, tag).commit();
+        getSupportActionBar().setTitle(actionBarTitle);
     }
 }

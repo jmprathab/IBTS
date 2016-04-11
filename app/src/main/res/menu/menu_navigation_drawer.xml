@@ -13,7 +13,7 @@
                     android:id="@+id/menu_edit_details"
                     android:checkable="true"
                     android:icon="@drawable/ic_menu_send"
-                    android:title="Edit Details" />
+                    android:title="Edit Account" />
                 <item
                     android:id="@+id/menu_settings"
                     android:checkable="true"

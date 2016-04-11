@@ -1,6 +1,5 @@
 package thin.blog.ibts;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -47,8 +46,7 @@ public class Lister extends Fragment {
     @Bind(R.id.title_name)
     TextView displayTitleName;
     private String listName;
-    private OnFragmentInteractionListener mListener;
-    private int serverSuccess;
+    private boolean isBusList = false;
 
     public Lister() {
     }
@@ -66,6 +64,9 @@ public class Lister extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             listName = getArguments().getString(LIST_NAME);
+            if (listName.contentEquals("BUS")) {
+                isBusList = true;
+            }
         }
     }
 
@@ -82,7 +83,7 @@ public class Lister extends Fragment {
     private void refreshData() {
         requestQueue = VolleySingleton.getInstance().getRequestQueue();
         String url;
-        if (listName.contentEquals("BUS")) {
+        if (isBusList) {
             url = Constants.BUS_LIST;
         } else {
             url = Constants.STOP_LIST;
@@ -104,7 +105,7 @@ public class Lister extends Fragment {
 
     private void jsonParser(JSONObject response) {
         try {
-            serverSuccess = response.getInt("status");
+            int serverSuccess = response.getInt("status");
             if (serverSuccess == 1) {
                 JSONArray busNameArray = response.getJSONArray("list");
                 for (int i = 0; i < busNameArray.length(); i++) {
@@ -115,7 +116,7 @@ public class Lister extends Fragment {
                     public void onItemClick(String item) {
                         String url;
                         Map<String, String> formData = new HashMap<>();
-                        if (listName.contentEquals("BUS")) {
+                        if (isBusList) {
                             displayDetailsName.setText("Bus Route of " + item);
                             formData.put("busname", item);
                             url = Constants.BUS_DETAILS;
@@ -132,7 +133,7 @@ public class Lister extends Fragment {
                         }, new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
-                                Snackbar.make(mainList, "Network Error", Snackbar.LENGTH_SHORT).show();
+                                Snackbar.make(mainList, "Error Fetching Data", Snackbar.LENGTH_SHORT).show();
                             }
                         });
                         request.setTag(Constants.BUS_LIST);
@@ -141,7 +142,7 @@ public class Lister extends Fragment {
                 });
                 mainList.setAdapter(mainListAdapter);
             } else {
-                Snackbar.make(mainList, "Error Fetching Data", Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(mainList, "Network Error", Snackbar.LENGTH_SHORT).show();
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -181,7 +182,7 @@ public class Lister extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_lister, container, false);
         ButterKnife.bind(this, view);
-        if (listName.contentEquals("BUS")) {
+        if (isBusList) {
             displayDetailsName.setText("Bus Details");
             displayTitleName.setText("Bus List");
         } else {
@@ -191,34 +192,12 @@ public class Lister extends Fragment {
         return view;
     }
 
-    public void onButtonPressed(String message) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(message);
-        }
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString() + " must implement Lister.OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    public void shareData() {
+    public void shareDataAsText() {
         Intent sendIntent = new Intent();
         sendIntent.setAction(Intent.ACTION_SEND);
         String busName = (String) displayDetailsName.getText();
         String message = "";
-        if (listName.contentEquals("BUS")) {
+        if (isBusList) {
             message = "Click a Bus From the List to Share details about";
         } else {
             message = "Click a Stop From the List to Share details about";
@@ -235,10 +214,5 @@ public class Lister extends Fragment {
         sendIntent.putExtra(Intent.EXTRA_TEXT, sharingMessage);
         sendIntent.setType("text/plain");
         startActivity(sendIntent);
-    }
-
-
-    public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(String uri);
     }
 }

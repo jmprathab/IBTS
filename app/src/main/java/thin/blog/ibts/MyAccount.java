@@ -29,7 +29,7 @@ import network.CustomRequest;
 import network.VolleySingleton;
 
 import static datasets.User.getUserObject;
-import static thin.blog.ibts.ApplicationHelper.getsha256;
+import static thin.blog.ibts.ApplicationHelper.getSHA256;
 import static thin.blog.ibts.ApplicationHelper.readFromSharedPreferences;
 import static thin.blog.ibts.ApplicationHelper.writeToSharedPreferences;
 
@@ -45,7 +45,7 @@ public class MyAccount extends Fragment {
     @Bind(R.id.balance)
     TextView balance;
     @Bind(R.id.qr_code)
-    ImageView qrCode;
+    ImageView imageQRCode;
     private int userId;
     private String dataName;
     private String dataMobile;
@@ -76,7 +76,7 @@ public class MyAccount extends Fragment {
         dataEmail = "Email : " + user.getEmail();
         dataAddress = "Address : " + user.getAddress();
         dataBalance = user.getBalance();
-        qrCodeData = userId + "/" + getsha256(password + dataMobile + userId);
+        qrCodeData = userId + "/" + getSHA256(password + dataMobile + userId);
     }
 
     @Override
@@ -88,12 +88,12 @@ public class MyAccount extends Fragment {
         email.setText(dataEmail);
         address.setText(dataAddress);
         balance.setText("Balance : ₹ " + dataBalance);
-        qrCode.setImageBitmap(QRCode.from(qrCodeData).bitmap());
-        doProcess();
+        imageQRCode.setImageBitmap(QRCode.from(qrCodeData).bitmap());
+        fetchDetails();
         return view;
     }
 
-    private void doProcess() {
+    private void fetchDetails() {
         final RequestQueue requestQueue = VolleySingleton.getInstance().getRequestQueue();
         Map<String, String> formData = new HashMap<>();
         formData.put("userid", String.valueOf(userId));
@@ -106,7 +106,7 @@ public class MyAccount extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                //TODO:Update Pull to Refresh as not refreshing
+                Snackbar.make(name, "Network Error", Snackbar.LENGTH_SHORT).show();
             }
         });
         requestQueue.add(request);
@@ -144,8 +144,8 @@ public class MyAccount extends Fragment {
             email.setText("Email : " + user.getEmail());
             address.setText("Address : " + user.getAddress());
             balance.setText("Balance : ₹ " + user.getBalance());
-            qrCodeData = userId + "/" + getsha256(password + dataMobile + userId);
-            qrCode.setImageBitmap(QRCode.from(qrCodeData).bitmap());
+            qrCodeData = userId + "/" + getSHA256(password + dataMobile + userId);
+            imageQRCode.setImageBitmap(QRCode.from(qrCodeData).bitmap());
             writeToSharedPreferences(Constants.USER_DATA_OBJECT, User.getUserJson(user));
         } else {
             Snackbar.make(name, serverMessage, Snackbar.LENGTH_LONG).show();

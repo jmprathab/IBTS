@@ -6,6 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+/**
+ * Fragment is used to Display Details about the creators of the Project
+ */
 public class About extends Fragment {
 
     public About() {
@@ -13,11 +16,6 @@ public class About extends Fragment {
 
     public static About newInstance() {
         return new About();
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
     }
 
     @Override

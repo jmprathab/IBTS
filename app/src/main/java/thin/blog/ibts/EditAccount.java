@@ -1,6 +1,5 @@
 package thin.blog.ibts;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -31,11 +30,13 @@ import network.CustomRequest;
 import network.VolleySingleton;
 
 import static thin.blog.ibts.ApplicationHelper.isValidPassword;
+import static thin.blog.ibts.ApplicationHelper.lockView;
 import static thin.blog.ibts.ApplicationHelper.readFromSharedPreferences;
+import static thin.blog.ibts.ApplicationHelper.releaseView;
 import static thin.blog.ibts.ApplicationHelper.writeToSharedPreferences;
 
 public class EditAccount extends Fragment {
-    private final User userInputData = new User();
+    private final User userFromInputData = new User();
     @Bind(R.id.name)
     EditText name;
     @Bind(R.id.mobile)
@@ -51,12 +52,11 @@ public class EditAccount extends Fragment {
     @Bind(R.id.confirm_new_password)
     EditText confirmNewPassword;
     @Bind(R.id.edit_details)
-    ActionProcessButton applyDetails;
+    ActionProcessButton applyChanges;
     private int serverSuccess;
     private String serverMessage;
-    private CountDownTimer failed;
-    private User user = new User();
-    private Context activityContext;
+    private CountDownTimer countDownTimerFailed;
+    private User userFromSharedPreferences = new User();
 
     public EditAccount() {
     }
@@ -68,65 +68,64 @@ public class EditAccount extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        user = User.getUserObject(readFromSharedPreferences(Constants.USER_DATA_OBJECT, ""));
-
+        userFromSharedPreferences = User.getUserObject(readFromSharedPreferences(Constants.USER_DATA_OBJECT, ""));
     }
 
-    private void resetViews() {
-        name.setText(user.getName());
-        mobile.setText(user.getMobile());
-        email.setText(user.getEmail());
-        address.setText(user.getAddress());
+    private void resetUserDataInViews() {
+        name.setText(userFromSharedPreferences.getName());
+        mobile.setText(userFromSharedPreferences.getMobile());
+        email.setText(userFromSharedPreferences.getEmail());
+        address.setText(userFromSharedPreferences.getAddress());
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_edit_account, container, false);
         ButterKnife.bind(this, view);
-        resetViews();
+        resetUserDataInViews();
         return view;
     }
 
     @OnClick(R.id.edit_details)
     public void applyDetails() {
-        lockView(applyDetails);
+        lockView(applyChanges);
         String inputEmail = email.getText().toString();
         String inputAddress = address.getText().toString();
         String inputOldPassword = oldPassword.getText().toString();
         String inputNewPassword = newPassword.getText().toString();
         String inputConfirmNewPassword = confirmNewPassword.getText().toString();
-        userInputData.setUserId(user.getUserId());
-        userInputData.setName(user.getName());
-        userInputData.setBalance(user.getBalance());
-        userInputData.setEmail(inputEmail);
-        userInputData.setAddress(inputAddress);
+        userFromInputData.setUserId(userFromSharedPreferences.getUserId());
+        userFromInputData.setName(userFromSharedPreferences.getName());
+        userFromInputData.setBalance(userFromSharedPreferences.getBalance());
+        userFromInputData.setEmail(inputEmail);
+        userFromInputData.setAddress(inputAddress);
         if (isValidPassword(inputNewPassword)) {
-            userInputData.setPassword(inputNewPassword);
+            userFromInputData.setPassword(inputNewPassword);
         } else {
-            userInputData.setPassword(inputOldPassword);
+            userFromInputData.setPassword(inputOldPassword);
         }
         if (inputOldPassword.contentEquals("")) {
-            Snackbar.make(applyDetails, "Enter Your Password", Snackbar.LENGTH_LONG).show();
+            Snackbar.make(applyChanges, "Enter Your Password", Snackbar.LENGTH_LONG).show();
             newPassword.setText("");
             confirmNewPassword.setText("");
-            releaseView(applyDetails);
+            releaseView(applyChanges);
             return;
         }
         if (!inputNewPassword.contentEquals("")) {
             if (!inputNewPassword.contentEquals(inputConfirmNewPassword)) {
                 newPassword.setText("");
                 confirmNewPassword.setText("");
-                Snackbar.make(applyDetails, "Passwords should match", Snackbar.LENGTH_LONG).show();
-                releaseView(applyDetails);
+                Snackbar.make(applyChanges, "Passwords should match", Snackbar.LENGTH_LONG).show();
+                releaseView(applyChanges);
                 return;
             }
         } else {
             inputNewPassword = inputOldPassword;
-            userInputData.setPassword(inputNewPassword);
+            userFromInputData.setPassword(inputNewPassword);
         }
         final RequestQueue requestQueue = VolleySingleton.getInstance().getRequestQueue();
         Map<String, String> formData = new HashMap<>();
-        formData.put("userid", String.valueOf(user.getUserId()));
+        formData.put("userid", String.valueOf(userFromSharedPreferences.getUserId()));
         formData.put("email", inputEmail);
         formData.put("address", inputAddress);
         formData.put("oldpassword", inputOldPassword);
@@ -139,8 +138,8 @@ public class EditAccount extends Fragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Snackbar.make(applyDetails, "Network Error", Snackbar.LENGTH_SHORT).show();
-                applyDetails.setProgress(-1);
+                Snackbar.make(applyChanges, "Network Error", Snackbar.LENGTH_SHORT).show();
+                applyChanges.setProgress(-1);
                 new CountDownTimer(2000, 1000) {
                     @Override
                     public void onTick(long millisUntilFinished) {
@@ -148,16 +147,16 @@ public class EditAccount extends Fragment {
 
                     @Override
                     public void onFinish() {
-                        if (applyDetails != null) {
-                            applyDetails.setProgress(0);
-                            releaseView(applyDetails);
+                        if (applyChanges != null) {
+                            applyChanges.setProgress(0);
+                            releaseView(applyChanges);
                         }
                     }
                 }.start();
             }
         });
         requestQueue.add(request);
-        applyDetails.setProgress(1);
+        applyChanges.setProgress(1);
     }
 
 
@@ -173,9 +172,9 @@ public class EditAccount extends Fragment {
 
     private void finalDecision() {
         if (serverSuccess == 1 || serverSuccess == 20) {
-            writeToSharedPreferences(Constants.USER_DATA_OBJECT, User.getUserJson(userInputData));
-            applyDetails.setProgress(100);
-            lockView(applyDetails);
+            writeToSharedPreferences(Constants.USER_DATA_OBJECT, User.getUserJson(userFromInputData));
+            applyChanges.setProgress(100);
+            lockView(applyChanges);
             if (serverSuccess == 20) {
                 android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(getActivity(), R.style.AlertDialogDark);
                 builder.setCancelable(false);
@@ -192,56 +191,36 @@ public class EditAccount extends Fragment {
                 builder.create().show();
             }
         } else {
-            applyDetails.setProgress(-1);
-            failed = new CountDownTimer(2000, 1000) {
+            applyChanges.setProgress(-1);
+            countDownTimerFailed = new CountDownTimer(2000, 1000) {
                 @Override
                 public void onTick(long millisUntilFinished) {
                 }
 
                 @Override
                 public void onFinish() {
-                    applyDetails.setProgress(0);
-                    releaseView(applyDetails);
+                    applyChanges.setProgress(0);
+                    releaseView(applyChanges);
                 }
             };
-            failed.start();
+            countDownTimerFailed.start();
 
-            Snackbar.make(applyDetails, serverMessage, Snackbar.LENGTH_LONG).show();
+            Snackbar.make(applyChanges, serverMessage, Snackbar.LENGTH_LONG).show();
         }
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        if (failed != null) {
-            failed.cancel();
+        if (countDownTimerFailed != null) {
+            countDownTimerFailed.cancel();
         }
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        activityContext = context;
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        activityContext = null;
-    }
-
-    private void lockView(View v) {
-        v.setClickable(false);
-    }
-
-    private void releaseView(View v) {
-        v.setClickable(true);
     }
 
     interface OnFragmentInteractionListener {

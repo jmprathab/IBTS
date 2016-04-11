@@ -191,7 +191,6 @@ public class SignUp extends AppCompatActivity {
     }
 
     @Override
-    public void onBackPressed() {
-        NavUtils.navigateUpFromSameTask(this);
+    public void onBackPressed() {NavUtils.navigateUpFromSameTask(this);
     }
 }
