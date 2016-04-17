@@ -7,22 +7,22 @@
                 <item
                     android:id="@+id/menu_my_account"
                     android:checkable="true"
-                    android:icon="@drawable/ic_menu_share"
+                    android:icon="@drawable/ic_menu_my_account"
                     android:title="My Account" />
                 <item
                     android:id="@+id/menu_edit_details"
                     android:checkable="true"
-                    android:icon="@drawable/ic_menu_send"
+                    android:icon="@drawable/ic_menu_edit"
                     android:title="Edit Account" />
                 <item
                     android:id="@+id/menu_settings"
                     android:checkable="true"
-                    android:icon="@drawable/ic_menu_share"
+                    android:icon="@drawable/ic_menu_settings"
                     android:title="Settings" />
                 <item
                     android:id="@+id/menu_logout"
                     android:checkable="true"
-                    android:icon="@drawable/ic_menu_send"
+                    android:icon="@drawable/ic_menu_logout"
                     android:title="Logout" />
             </menu>
         </item>
@@ -32,17 +32,17 @@
                 <item
                     android:id="@+id/travel_history"
                     android:checkable="true"
-                    android:icon="@drawable/ic_menu_gallery"
+                    android:icon="@drawable/ic_menu_details"
                     android:title="Travel History" />
                 <item
                     android:id="@+id/bus_tracker"
                     android:checkable="true"
-                    android:icon="@drawable/ic_menu_slideshow"
+                    android:icon="@drawable/ic_menu_bus"
                     android:title="Bus Tracker" />
                 <item
                     android:id="@+id/stop_details"
                     android:checkable="true"
-                    android:icon="@drawable/ic_menu_manage"
+                    android:icon="@drawable/ic_menu_stop_details"
                     android:title="Stop Details" />
             </menu>
         </item>
@@ -54,12 +54,12 @@
                 <item
                     android:id="@+id/help"
                     android:checkable="true"
-                    android:icon="@drawable/ic_menu_share"
+                    android:icon="@drawable/ic_menu_help"
                     android:title="Help" />
                 <item
                     android:id="@+id/about"
                     android:checkable="true"
-                    android:icon="@drawable/ic_menu_send"
+                    android:icon="@drawable/ic_menu_about"
                     android:title="About" />
             </menu>
         </item>

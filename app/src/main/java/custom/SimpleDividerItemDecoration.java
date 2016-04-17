@@ -9,7 +9,9 @@ import android.view.View;
 
 import thin.blog.ibts.R;
 
-
+/**
+ * ItemDecoration class for Recycler View
+ */
 public class SimpleDividerItemDecoration extends RecyclerView.ItemDecoration {
     private Drawable mDivider;
 

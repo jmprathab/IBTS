@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.webkit.WebView;
 
 /**
- * Fragment is used to Display Details about the Application
+ * Fragment used to Display Details about the Application
  */
 public class Help extends Fragment {
     WebView webView;

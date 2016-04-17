@@ -37,6 +37,9 @@ import static thin.blog.ibts.ApplicationHelper.lockView;
 import static thin.blog.ibts.ApplicationHelper.releaseView;
 import static thin.blog.ibts.ApplicationHelper.writeToSharedPreferences;
 
+/**
+ * Login Activity which lets users to Login into the Application
+ */
 public class Login extends AppCompatActivity {
     @Bind(R.id.mobile)
     EditText mobile;

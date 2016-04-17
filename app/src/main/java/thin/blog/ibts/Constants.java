@@ -1,6 +1,8 @@
 package thin.blog.ibts;
 
-
+/**
+ * Class which contains values for different SharedPreferences value and URL
+ */
 class Constants {
     public static final String SHARED_PREFS_USER_DATA = "user_data";
     public static final String USER_DATA_OBJECT = "user_data_object";
@@ -23,7 +25,7 @@ class Constants {
 
     static {
         if (localhost) {
-            ADDRESS = "http://192.168.1.3/ibts/";
+            ADDRESS = "http://192.168.1.2/ibts/";
         } else {
             ADDRESS = "http://www.thin.comyr.com/";
         }

@@ -35,6 +35,9 @@ import static thin.blog.ibts.ApplicationHelper.readFromSharedPreferences;
 import static thin.blog.ibts.ApplicationHelper.releaseView;
 import static thin.blog.ibts.ApplicationHelper.writeToSharedPreferences;
 
+/**
+ * Fragment which is used to edit Account details of the user
+ */
 public class EditAccount extends Fragment {
     private final User userFromInputData = new User();
     @Bind(R.id.name)

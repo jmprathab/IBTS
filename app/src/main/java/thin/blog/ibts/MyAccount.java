@@ -33,6 +33,10 @@ import static thin.blog.ibts.ApplicationHelper.getSHA256;
 import static thin.blog.ibts.ApplicationHelper.readFromSharedPreferences;
 import static thin.blog.ibts.ApplicationHelper.writeToSharedPreferences;
 
+
+/**
+ * Fragment which displays details about the User
+ */
 public class MyAccount extends Fragment {
     @Bind(R.id.name)
     TextView name;

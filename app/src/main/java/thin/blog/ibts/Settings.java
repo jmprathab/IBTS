@@ -7,6 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
+/**
+ * Fragment which lets users to change different settings of the Application
+ */
 public class Settings extends Fragment {
 
     public Settings() {

@@ -7,13 +7,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-
 /**
- * A simple {@link Fragment} subclass.
+ * Fragment which displays travel made by the User
  */
 public class TravelHistory extends Fragment {
     public TravelHistory() {
-        // Required empty public constructor
     }
 
     public static TravelHistory newInstance() {
@@ -22,7 +20,6 @@ public class TravelHistory extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_travel_history, container, false);
     }
 

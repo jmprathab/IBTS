@@ -3,7 +3,7 @@ package datasets;
 import com.google.gson.Gson;
 
 /**
- * Created by jmprathab on 31/03/16.
+ * Class which is used to represent the User of the Application
  */
 public class User {
     private int userId;

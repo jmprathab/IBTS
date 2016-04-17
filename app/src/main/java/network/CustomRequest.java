@@ -13,7 +13,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.Map;
 
 /**
- * Created by jmprathab on 09/07/15.
+ * Volley JSON Object Request Class
  */
 public class CustomRequest extends Request<JSONObject> {
     private final Response.Listener<JSONObject> listener;

@@ -11,7 +11,7 @@ import java.util.LinkedList;
 import thin.blog.ibts.R;
 
 /**
- * Created by jmprathab on 09/04/16.
+ * Adapter for Recycler View
  */
 public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
     LinkedList<String> data = new LinkedList<>();

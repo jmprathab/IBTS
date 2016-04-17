@@ -21,7 +21,7 @@
             android:layout_gravity="center"
             android:contentDescription="This feature is Under Maintenance"
             android:padding="8dp"
-            android:src="@drawable/under_maintenance" />
+            android:src="@drawable/icon_under_maintenance" />
 
         <TextView
             android:layout_width="match_parent"

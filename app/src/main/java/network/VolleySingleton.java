@@ -5,6 +5,9 @@ import com.android.volley.toolbox.Volley;
 
 import thin.blog.ibts.ApplicationHelper;
 
+/**
+ * Singleton class which returns a RequestQueue instance of volley
+ */
 public class VolleySingleton {
     private static VolleySingleton sInstance = null;
     private final RequestQueue mRequestQueue;

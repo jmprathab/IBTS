@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 /**
- * Fragment is used to Display Details about the creators of the Project
+ * Fragment used to Display Details about the creators of the Project
  */
 public class About extends Fragment {
 

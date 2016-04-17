@@ -27,6 +27,9 @@ import datasets.User;
 import static thin.blog.ibts.ApplicationHelper.readFromSharedPreferences;
 import static thin.blog.ibts.ApplicationHelper.writeToSharedPreferences;
 
+/**
+ * Main Activity which contains Navigation Drawer and takes care of Replacing Fragments
+ */
 public class Home extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, EditAccount.OnFragmentInteractionListener {
     @Bind(R.id.app_bar)
     Toolbar toolbar;
@@ -128,7 +131,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
             }
             replaceFragment(myAccount, "MY_ACCOUNT", "My Account");
             floatingActionButton.setVisibility(View.VISIBLE);
-            floatingActionButton.setImageResource(R.drawable.edit);
+            floatingActionButton.setImageResource(R.drawable.icon_edit);
         } else if (id == R.id.menu_edit_details) {
             EditAccount editAccount = (EditAccount) fragmentManager.findFragmentByTag("EDIT_ACCOUNT");
             if (editAccount == null) {
@@ -188,7 +191,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
             }
             replaceFragment(lister, "BUS", "Bus Tracker");
             floatingActionButton.setVisibility(View.VISIBLE);
-            floatingActionButton.setImageResource(R.drawable.share);
+            floatingActionButton.setImageResource(R.drawable.icon_share);
 
         } else if (id == R.id.stop_details) {
             Lister lister = (Lister) fragmentManager.findFragmentByTag("STOP");
@@ -197,7 +200,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
             }
             replaceFragment(lister, "STOP", "Stop Details");
             floatingActionButton.setVisibility(View.VISIBLE);
-            floatingActionButton.setImageResource(R.drawable.share);
+            floatingActionButton.setImageResource(R.drawable.icon_share);
 
         } else if (id == R.id.help) {
             Help help = (Help) fragmentManager.findFragmentByTag("HELP");

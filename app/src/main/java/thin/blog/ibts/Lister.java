@@ -32,6 +32,10 @@ import custom.SimpleDividerItemDecoration;
 import network.CustomRequest;
 import network.VolleySingleton;
 
+
+/**
+ * Fragment which displays details about the Buses and Stops
+ */
 public class Lister extends Fragment {
     private static final String LIST_NAME = "list_name";
     @Bind(R.id.main_list_recycler_view)
