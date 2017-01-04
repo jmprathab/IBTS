@@ -23,7 +23,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import datasets.User;
@@ -44,15 +44,15 @@ import static thin.blog.ibts.ApplicationHelper.writeToSharedPreferences;
 
 public class SignUp extends AppCompatActivity {
     private final User user = new User();
-    @Bind(R.id.app_bar)
+    @BindView(R.id.app_bar)
     Toolbar toolbar;
-    @Bind(R.id.name)
+    @BindView(R.id.name)
     EditText name;
-    @Bind(R.id.mobile)
+    @BindView(R.id.mobile)
     EditText mobile;
-    @Bind(R.id.password)
+    @BindView(R.id.password)
     EditText password;
-    @Bind(R.id.create_account)
+    @BindView(R.id.create_account)
     ProcessButton signUp;
     private int serverSuccess;
     private String serverMessage;
@@ -191,6 +191,7 @@ public class SignUp extends AppCompatActivity {
     }
 
     @Override
-    public void onBackPressed() {NavUtils.navigateUpFromSameTask(this);
+    public void onBackPressed() {
+        NavUtils.navigateUpFromSameTask(this);
     }
 }

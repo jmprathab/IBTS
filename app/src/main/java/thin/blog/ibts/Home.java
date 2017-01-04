@@ -19,7 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import datasets.User;
@@ -31,13 +31,13 @@ import static thin.blog.ibts.ApplicationHelper.writeToSharedPreferences;
  * Main Activity which contains Navigation Drawer and takes care of Replacing Fragments
  */
 public class Home extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, EditAccount.OnFragmentInteractionListener {
-    @Bind(R.id.app_bar)
+    @BindView(R.id.app_bar)
     Toolbar toolbar;
-    @Bind(R.id.floating_action_button)
+    @BindView(R.id.floating_action_button)
     FloatingActionButton floatingActionButton;
-    @Bind(R.id.drawer_layout)
+    @BindView(R.id.drawer_layout)
     DrawerLayout drawerLayout;
-    @Bind(R.id.navigation_view)
+    @BindView(R.id.navigation_view)
     NavigationView navigationView;
     private FragmentManager fragmentManager;
     private boolean backPressed = false;

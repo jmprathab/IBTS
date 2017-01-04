@@ -22,8 +22,9 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import datasets.User;
 import network.CustomRequest;
 import network.VolleySingleton;
@@ -38,17 +39,17 @@ import static thin.blog.ibts.ApplicationHelper.writeToSharedPreferences;
  * Fragment which displays details about the User
  */
 public class MyAccount extends Fragment {
-    @Bind(R.id.name)
+    @BindView(R.id.name)
     TextView name;
-    @Bind(R.id.mobile)
+    @BindView(R.id.mobile)
     TextView mobile;
-    @Bind(R.id.email)
+    @BindView(R.id.email)
     TextView email;
-    @Bind(R.id.address)
+    @BindView(R.id.address)
     TextView address;
-    @Bind(R.id.balance)
+    @BindView(R.id.balance)
     TextView balance;
-    @Bind(R.id.qr_code)
+    @BindView(R.id.qr_code)
     ImageView imageQRCode;
     private int userId;
     private String dataName;
@@ -61,6 +62,7 @@ public class MyAccount extends Fragment {
     private String serverMessage;
     private int serverSuccess;
     private User user = new User();
+    private Unbinder unbinder;
 
     public MyAccount() {
     }
@@ -86,7 +88,7 @@ public class MyAccount extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_my_account, container, false);
-        ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, view);
         name.setText(dataName);
         mobile.setText(dataMobile);
         email.setText(dataEmail);
@@ -159,6 +161,6 @@ public class MyAccount extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
+        unbinder.unbind();
     }
 }

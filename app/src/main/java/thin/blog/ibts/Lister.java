@@ -26,7 +26,7 @@ import java.util.LinkedList;
 import java.util.Map;
 
 import adapters.ListAdapter;
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import custom.SimpleDividerItemDecoration;
 import network.CustomRequest;
@@ -38,16 +38,16 @@ import network.VolleySingleton;
  */
 public class Lister extends Fragment {
     private static final String LIST_NAME = "list_name";
-    @Bind(R.id.main_list_recycler_view)
+    @BindView(R.id.main_list_recycler_view)
     RecyclerView mainList;
-    @Bind(R.id.detail_list_recycler_view)
+    @BindView(R.id.detail_list_recycler_view)
     RecyclerView detailsList;
     RequestQueue requestQueue;
     LinkedList<String> mainListData = new LinkedList<>();
     LinkedList<String> detailsListData = new LinkedList<>();
-    @Bind(R.id.details_name)
+    @BindView(R.id.details_name)
     TextView displayDetailsName;
-    @Bind(R.id.title_name)
+    @BindView(R.id.title_name)
     TextView displayTitleName;
     private String listName;
     private boolean isBusList = false;

@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
 import android.text.util.Linkify;
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -24,7 +25,7 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import datasets.User;
@@ -41,11 +42,11 @@ import static thin.blog.ibts.ApplicationHelper.writeToSharedPreferences;
  * Login Activity which lets users to Login into the Application
  */
 public class Login extends AppCompatActivity {
-    @Bind(R.id.mobile)
+    @BindView(R.id.mobile)
     EditText mobile;
-    @Bind(R.id.password)
+    @BindView(R.id.password)
     EditText password;
-    @Bind(R.id.login)
+    @BindView(R.id.login)
     ActionProcessButton login;
     User user = new User();
     private String serverMessage;
@@ -70,13 +71,14 @@ public class Login extends AppCompatActivity {
             final CustomRequest request = new CustomRequest(Request.Method.POST, Constants.LOGIN, formData, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
-                    //Toast.makeText(Login.this, response.toString(), Toast.LENGTH_LONG).show();
+                    Log.d("prathab", response.toString());
                     jsonParser(response);
 
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
+                    Log.d("prathab", error.getMessage());
                     Snackbar.make(login, "Network Error", Snackbar.LENGTH_SHORT).show();
                     login.setProgress(-1);
                     new CountDownTimer(2000, 1000) {
@@ -160,8 +162,8 @@ public class Login extends AppCompatActivity {
         }
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
-        mobile.setText("9025731119");
-        password.setText("jaihanuman");
+        mobile.setText("8110031139");
+        password.setText("password");
     }
 
     @OnClick(R.id.forgot_password)

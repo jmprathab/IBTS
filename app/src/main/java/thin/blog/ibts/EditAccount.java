@@ -22,9 +22,10 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 import datasets.User;
 import network.CustomRequest;
 import network.VolleySingleton;
@@ -40,26 +41,27 @@ import static thin.blog.ibts.ApplicationHelper.writeToSharedPreferences;
  */
 public class EditAccount extends Fragment {
     private final User userFromInputData = new User();
-    @Bind(R.id.name)
+    @BindView(R.id.name)
     EditText name;
-    @Bind(R.id.mobile)
+    @BindView(R.id.mobile)
     EditText mobile;
-    @Bind(R.id.email)
+    @BindView(R.id.email)
     EditText email;
-    @Bind(R.id.address)
+    @BindView(R.id.address)
     EditText address;
-    @Bind(R.id.old_password)
+    @BindView(R.id.old_password)
     EditText oldPassword;
-    @Bind(R.id.new_password)
+    @BindView(R.id.new_password)
     EditText newPassword;
-    @Bind(R.id.confirm_new_password)
+    @BindView(R.id.confirm_new_password)
     EditText confirmNewPassword;
-    @Bind(R.id.edit_details)
+    @BindView(R.id.edit_details)
     ActionProcessButton applyChanges;
     private int serverSuccess;
     private String serverMessage;
     private CountDownTimer countDownTimerFailed;
     private User userFromSharedPreferences = new User();
+    private Unbinder unbinder;
 
     public EditAccount() {
     }
@@ -84,7 +86,7 @@ public class EditAccount extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_edit_account, container, false);
-        ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, view);
         resetUserDataInViews();
         return view;
     }
@@ -223,7 +225,7 @@ public class EditAccount extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
+        unbinder.unbind();
     }
 
     interface OnFragmentInteractionListener {
