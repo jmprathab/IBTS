@@ -10,12 +10,14 @@ An attempt to create a bus ticketing system which uses QR-Code instead of ticket
 
 * This application runs on Android API level 14  and above
 
+
 ### Screenshot
 <img src="https://cloud.githubusercontent.com/assets/11979066/21739793/a570fda4-d4cb-11e6-9153-d755072aef28.png" width="400"/>
 
 <img src="https://cloud.githubusercontent.com/assets/11979066/21739792/a5709f3a-d4cb-11e6-86a7-5d5ce45823a3.png" width="400"/>
 
 <img src="https://cloud.githubusercontent.com/assets/11979066/21739791/a57082a2-d4cb-11e6-9014-e74746a11afd.png" width="400"/>
+
 
 ### Installing
 
