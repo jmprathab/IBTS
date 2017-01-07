@@ -1,4 +1,4 @@
- # IBTS
+# IBTS
 
 > An Android QRCode based Bus Ticketing System.
 
