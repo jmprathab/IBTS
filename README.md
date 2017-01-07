@@ -1,8 +1,8 @@
 # IBTS
 
-> An Android QRCode based Bus Ticketing System.
+An Android QRCode based Bus Ticketing System.
 
-> An attempt to create a bus ticketing system which uses QR-Code instead of tickets for travelling.
+An attempt to create a bus ticketing system which uses QR-Code instead of tickets for travelling.
 
 
 
